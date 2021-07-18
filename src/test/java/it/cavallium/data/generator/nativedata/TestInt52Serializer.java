@@ -17,6 +17,8 @@ public class TestInt52Serializer {
 			testInt52Serialization(i);
 		}
 		testInt52Serialization(0xF_FF_FF_FF_FF_FF_FFL);
+		testInt52Serialization(1099511627775L);
+		testInt52Serialization(999619292661L);
 	}
 
 	public void testInt52Serialization(long n) throws IOException {
