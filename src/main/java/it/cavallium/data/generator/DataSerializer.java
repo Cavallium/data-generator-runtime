@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
 
 public interface DataSerializer<T> {
 
-	void serialize(DataOutput dataOutput, @Nullable T data) throws IOException;
+	void serialize(DataOutput dataOutput, @NotNull T data) throws IOException;
 
 	@NotNull T deserialize(DataInput dataInput) throws IOException;
 }

@@ -12,8 +12,8 @@ public class ArrayInt52Serializer implements DataSerializer< List<Int52>> {
 	@Override
 	public void serialize(DataOutput dataOutput, List<Int52> data) throws IOException {
 		dataOutput.writeInt(data.size());
-		for (int i = 0; i < data.size(); i++) {
-			Int52Serializer.INSTANCE.serialize(dataOutput, data.get(i));
+		for (Int52 datum : data) {
+			Int52Serializer.INSTANCE.serialize(dataOutput, datum);
 		}
 	}
 
