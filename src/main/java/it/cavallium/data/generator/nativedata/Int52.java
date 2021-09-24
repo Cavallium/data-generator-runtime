@@ -55,7 +55,7 @@ public class Int52 extends Number implements Comparable<Int52> {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(value);
+		return Long.hashCode(value);
 	}
 
 	@Override
