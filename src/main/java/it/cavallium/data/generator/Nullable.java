@@ -3,6 +3,7 @@ package it.cavallium.data.generator;
 public class Nullable<T> {
 
 	private static final long serialVersionUID = 1L;
+	private static final Nullable<?> NULL = new Nullable<>(null);
 
 	private final T value;
 
@@ -18,12 +19,18 @@ public class Nullable<T> {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <T> Nullable<T> ofNullable(T value) {
-		return new Nullable<>(value);
+		if (value == null) {
+			return (Nullable<T>) NULL;
+		} else {
+			return new Nullable<>(value);
+		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <T> Nullable<T> empty() {
-		return new Nullable<>(null);
+		return (Nullable<T>) NULL;
 	}
 
 	public boolean isEmpty() {
