@@ -19,7 +19,10 @@ public class Int52 extends Number implements Comparable<Int52> {
 	 */
 	public static final int BYTES = 7;
 
-	public static final Int52 ZERO = new Int52(0);
+	public static final Int52 ZERO = new Int52(0L);
+	public static final Int52 ONE = new Int52(1L);
+	public static final Int52 TWO = new Int52(2L);
+	public static final Int52 TEN = new Int52(10L);
 
 	private final long value;
 
@@ -28,13 +31,21 @@ public class Int52 extends Number implements Comparable<Int52> {
 	}
 
 	public static Int52 fromLong(long value) {
-		if (value < 0) {
+		if (value == 0) {
+			return ZERO;
+		} else if (value == 1) {
+			return ONE;
+		} else if (value == 2) {
+			return TWO;
+		} else if (value == 10) {
+			return TEN;
+		} else if (value <= 0) {
 			throw new IllegalArgumentException("Only positive values are supported");
-		}
-		if (value > 0x0F_FF_FF_FF_FF_FF_FFL) {
+		} else if (value > 0x0F_FF_FF_FF_FF_FF_FFL) {
 			throw new IllegalArgumentException("Only values below or equal to " + 0xFFFFFFFFFFFFFL + " are supported");
+		} else {
+			return new Int52(value);
 		}
-		return new Int52(value);
 	}
 
 	long getValue() {

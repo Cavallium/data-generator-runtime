@@ -1,5 +1,6 @@
 package it.cavallium.data.generator.nativedata;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
@@ -7,7 +8,9 @@ import org.jetbrains.annotations.Nullable;
 
 public class Nullablebyte implements Serializable, IGenericNullable {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
+	private static final Nullablebyte NULL = new Nullablebyte(null);
 
 	private final Byte value;
 
@@ -20,11 +23,15 @@ public class Nullablebyte implements Serializable, IGenericNullable {
 	}
 
 	public static Nullablebyte ofNullable(@Nullable Byte value) {
-		return new Nullablebyte(value);
+		if (value == null) {
+			return NULL;
+		} else {
+			return new Nullablebyte(value);
+		}
 	}
 
-	public static <T> Nullablebyte empty() {
-		return new Nullablebyte(null);
+	public static Nullablebyte empty() {
+		return NULL;
 	}
 
 	public boolean isEmpty() {
