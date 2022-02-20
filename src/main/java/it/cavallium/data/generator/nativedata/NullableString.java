@@ -114,7 +114,7 @@ public class NullableString implements Serializable, IGenericNullable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(value);
+		return value == null ? 0 : value.hashCode();
 	}
 
 	@Override
