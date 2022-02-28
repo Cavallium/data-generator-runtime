@@ -30,6 +30,14 @@ public class Nullabledouble implements Serializable, IGenericNullable {
 		}
 	}
 
+	public static Nullabledouble ofNullableNumber(@Nullable Number value) {
+		if (value == null) {
+			return NULL;
+		} else {
+			return new Nullabledouble(value.doubleValue());
+		}
+	}
+
 	public static Nullabledouble empty() {
 		return NULL;
 	}

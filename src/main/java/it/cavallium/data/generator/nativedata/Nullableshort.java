@@ -30,6 +30,14 @@ public class Nullableshort implements Serializable, IGenericNullable {
 		}
 	}
 
+	public static Nullableshort ofNullableNumber(@Nullable Number value) {
+		if (value == null) {
+			return NULL;
+		} else {
+			return new Nullableshort(value.shortValue());
+		}
+	}
+
 	public static Nullableshort empty() {
 		return NULL;
 	}

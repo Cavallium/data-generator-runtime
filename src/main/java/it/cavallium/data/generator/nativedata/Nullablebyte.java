@@ -30,6 +30,14 @@ public class Nullablebyte implements Serializable, IGenericNullable {
 		}
 	}
 
+	public static Nullablebyte ofNullableNumber(@Nullable Number value) {
+		if (value == null) {
+			return NULL;
+		} else {
+			return new Nullablebyte(value.byteValue());
+		}
+	}
+
 	public static Nullablebyte empty() {
 		return NULL;
 	}

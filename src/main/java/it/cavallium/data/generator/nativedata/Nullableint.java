@@ -30,6 +30,14 @@ public class Nullableint implements Serializable, IGenericNullable {
 		}
 	}
 
+	public static Nullableint ofNullableNumber(@Nullable Number value) {
+		if (value == null) {
+			return NULL;
+		} else {
+			return new Nullableint(value.intValue());
+		}
+	}
+
 	public static Nullableint empty() {
 		return NULL;
 	}

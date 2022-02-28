@@ -30,6 +30,14 @@ public class Nullablefloat implements Serializable, IGenericNullable {
 		}
 	}
 
+	public static Nullablefloat ofNullableNumber(@Nullable Number value) {
+		if (value == null) {
+			return NULL;
+		} else {
+			return new Nullablefloat(value.floatValue());
+		}
+	}
+
 	public static Nullablefloat empty() {
 		return NULL;
 	}

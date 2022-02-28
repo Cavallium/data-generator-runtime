@@ -30,6 +30,14 @@ public class NullableInt52 implements Serializable, IGenericNullable {
 		}
 	}
 
+	public static NullableInt52 ofNullableNumber(@Nullable Number value) {
+		if (value == null) {
+			return NULL;
+		} else {
+			return new NullableInt52(Int52.fromLong(value.longValue()));
+		}
+	}
+
 	public static NullableInt52 empty() {
 		return NULL;
 	}

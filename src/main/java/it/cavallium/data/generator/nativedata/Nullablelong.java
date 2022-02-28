@@ -30,6 +30,14 @@ public class Nullablelong implements Serializable, IGenericNullable {
 		}
 	}
 
+	public static Nullablelong ofNullableNumber(@Nullable Number value) {
+		if (value == null) {
+			return NULL;
+		} else {
+			return new Nullablelong(value.longValue());
+		}
+	}
+
 	public static Nullablelong empty() {
 		return NULL;
 	}
