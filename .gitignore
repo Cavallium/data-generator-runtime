@@ -1,2 +1,4 @@
 /target/
 *.iml
+
+.ci-friendly-pom.xml
