@@ -65,6 +65,19 @@
           <encoding>UTF-8</encoding>
         </configuration>
       </plugin>
+			<plugin>
+				<groupId>com.outbrain.swinfra</groupId>
+				<artifactId>ci-friendly-flatten-maven-plugin</artifactId>
+				<version>1.0.14</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>clean</goal>
+							<goal>flatten</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
     </plugins>
   </build>
 
