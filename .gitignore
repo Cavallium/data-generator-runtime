@@ -2,3 +2,7 @@
 *.iml
 
 .ci-friendly-pom.xml
+
+/.classpath
+/.project
+/.settings/
