@@ -1,12 +1,13 @@
 package it.cavallium.data.generator.nativedata;
 
+import it.cavallium.data.generator.NativeNullable;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class Nullableboolean implements Serializable, IGenericNullable {
+public class Nullableboolean implements Serializable, IGenericNullable, NativeNullable<Boolean> {
 
 	@Serial
 	private static final long serialVersionUID = 1L;
@@ -42,6 +43,37 @@ public class Nullableboolean implements Serializable, IGenericNullable {
 		return value != null;
 	}
 
+	@Override
+	public @NotNull Boolean orElse(@NotNull Boolean defaultValue) {
+		if (value == null) {
+			return defaultValue;
+		} else {
+			return value;
+		}
+	}
+
+	@Override
+	public @NotNull Nullableboolean or(@NotNull NativeNullable<? extends Boolean> fallback) {
+		if (value == null) {
+			if (fallback.getClass() == Nullableboolean.class) {
+				return (Nullableboolean) fallback;
+			} else {
+				return ofNullable(fallback.getNullable());
+			}
+		} else {
+			return this;
+		}
+	}
+
+	@NotNull
+	public Nullableboolean or(Nullableboolean fallback) {
+		if (value == null) {
+			return fallback;
+		} else {
+			return this;
+		}
+	}
+
 	public boolean get() {
 		if (value == null) {
 			throw new NullPointerException();
@@ -66,6 +98,11 @@ public class Nullableboolean implements Serializable, IGenericNullable {
 	@Nullable
 	public Boolean getNullable() {
 		return value;
+	}
+
+	@Override
+	public @Nullable Boolean getNullable(@Nullable Boolean defaultValue) {
+		return value != null ? value : defaultValue;
 	}
 
 	public boolean getNullable(boolean defaultValue) {

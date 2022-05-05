@@ -1,12 +1,13 @@
 package it.cavallium.data.generator.nativedata;
 
+import it.cavallium.data.generator.NativeNullable;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class Nullablebyte implements Serializable, IGenericNullable {
+public class Nullablebyte implements Serializable, IGenericNullable, NativeNullable<Byte> {
 
 	@Serial
 	private static final long serialVersionUID = 1L;
@@ -50,6 +51,37 @@ public class Nullablebyte implements Serializable, IGenericNullable {
 		return value != null;
 	}
 
+	@Override
+	public @NotNull Byte orElse(@NotNull Byte defaultValue) {
+		if (value == null) {
+			return defaultValue;
+		} else {
+			return value;
+		}
+	}
+
+	@Override
+	public @NotNull Nullablebyte or(@NotNull NativeNullable<? extends Byte> fallback) {
+		if (value == null) {
+			if (fallback.getClass() == Nullablebyte.class) {
+				return (Nullablebyte) fallback;
+			} else {
+				return ofNullable(fallback.getNullable());
+			}
+		} else {
+			return this;
+		}
+	}
+
+	@NotNull
+	public Nullablebyte or(Nullablebyte fallback) {
+		if (value == null) {
+			return fallback;
+		} else {
+			return this;
+		}
+	}
+
 	public byte get() {
 		if (value == null) {
 			throw new NullPointerException();
@@ -74,6 +106,11 @@ public class Nullablebyte implements Serializable, IGenericNullable {
 	@Nullable
 	public Byte getNullable() {
 		return value;
+	}
+
+	@Override
+	public @Nullable Byte getNullable(@Nullable Byte defaultValue) {
+		return value != null ? value : defaultValue;
 	}
 
 	public byte getNullable(byte defaultValue) {

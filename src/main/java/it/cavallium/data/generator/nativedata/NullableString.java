@@ -1,12 +1,14 @@
 package it.cavallium.data.generator.nativedata;
 
+import it.cavallium.data.generator.NativeNullable;
+import it.cavallium.data.generator.TypedNullable;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class NullableString implements Serializable, IGenericNullable {
+public class NullableString implements Serializable, IGenericNullable, TypedNullable<String> {
 
 	@Serial
 	private static final long serialVersionUID = 1L;
@@ -46,10 +48,12 @@ public class NullableString implements Serializable, IGenericNullable {
 		return NULL;
 	}
 
+	@Override
 	public boolean isEmpty() {
 		return value == null;
 	}
 
+	@Override
 	public boolean isPresent() {
 		return value != null;
 	}
@@ -58,6 +62,11 @@ public class NullableString implements Serializable, IGenericNullable {
 		return value != null && !value.isBlank();
 	}
 
+	public boolean isBlank() {
+		return value == null || value.isBlank();
+	}
+
+	@Override
 	@NotNull
 	public String get() {
 		if (value == null) {
@@ -67,11 +76,56 @@ public class NullableString implements Serializable, IGenericNullable {
 		}
 	}
 
-	public String orElse(String defaultValue) {
+	@Override
+	@NotNull
+	public String orElse(@NotNull String defaultValue) {
 		if (value == null) {
 			return defaultValue;
 		} else {
 			return value;
+		}
+	}
+
+	@Override
+	public @NotNull NullableString or(@NotNull NativeNullable<? extends String> fallback) {
+		if (value == null) {
+			if (fallback.getClass() == NullableString.class) {
+				return (NullableString) fallback;
+			} else {
+				return ofNullable(fallback.getNullable());
+			}
+		} else {
+			return this;
+		}
+	}
+
+	@NotNull
+	public NullableString or(NullableString fallback) {
+		if (value == null) {
+			return fallback;
+		} else {
+			return this;
+		}
+	}
+
+	public @NotNull NullableString orIfBlank(@NotNull NativeNullable<? extends String> fallback) {
+		if (isBlank()) {
+			if (fallback.getClass() == NullableString.class) {
+				return (NullableString) fallback;
+			} else {
+				return ofNullable(fallback.getNullable());
+			}
+		} else {
+			return this;
+		}
+	}
+
+	@NotNull
+	public NullableString orIfBlank(NullableString fallback) {
+		if (isBlank()) {
+			return fallback;
+		} else {
+			return this;
 		}
 	}
 
@@ -85,7 +139,8 @@ public class NullableString implements Serializable, IGenericNullable {
 		return value;
 	}
 
-	@NotNull
+	@Override
+	@Nullable
 	public String getNullable(String defaultValue) {
 		return value == null ? defaultValue : value;
 	}

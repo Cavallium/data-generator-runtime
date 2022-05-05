@@ -1,12 +1,13 @@
 package it.cavallium.data.generator.nativedata;
 
+import it.cavallium.data.generator.NativeNullable;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class Nullabledouble implements Serializable, IGenericNullable {
+public class Nullabledouble implements Serializable, IGenericNullable, NativeNullable<Double> {
 
 	@Serial
 	private static final long serialVersionUID = 1L;
@@ -50,6 +51,37 @@ public class Nullabledouble implements Serializable, IGenericNullable {
 		return value != null;
 	}
 
+	@Override
+	public @NotNull Double orElse(@NotNull Double defaultValue) {
+		if (value == null) {
+			return defaultValue;
+		} else {
+			return value;
+		}
+	}
+
+	@Override
+	public @NotNull Nullabledouble or(@NotNull NativeNullable<? extends Double> fallback) {
+		if (value == null) {
+			if (fallback.getClass() == Nullabledouble.class) {
+				return (Nullabledouble) fallback;
+			} else {
+				return ofNullable(fallback.getNullable());
+			}
+		} else {
+			return this;
+		}
+	}
+
+	@NotNull
+	public Nullabledouble or(Nullabledouble fallback) {
+		if (value == null) {
+			return fallback;
+		} else {
+			return this;
+		}
+	}
+
 	public double get() {
 		if (value == null) {
 			throw new NullPointerException();
@@ -74,6 +106,11 @@ public class Nullabledouble implements Serializable, IGenericNullable {
 	@Nullable
 	public Double getNullable() {
 		return value;
+	}
+
+	@Override
+	public @Nullable Double getNullable(@Nullable Double defaultValue) {
+		return value == null ? defaultValue : value;
 	}
 
 	public double getNullable(double defaultValue) {

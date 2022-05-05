@@ -1,12 +1,13 @@
 package it.cavallium.data.generator.nativedata;
 
+import it.cavallium.data.generator.NativeNullable;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class Nullablechar implements Serializable, IGenericNullable {
+public class Nullablechar implements Serializable, IGenericNullable, NativeNullable<Character> {
 
 	@Serial
 	private static final long serialVersionUID = 1L;
@@ -42,6 +43,37 @@ public class Nullablechar implements Serializable, IGenericNullable {
 		return value != null;
 	}
 
+	@Override
+	public @NotNull Character orElse(@NotNull Character defaultValue) {
+		if (value == null) {
+			return defaultValue;
+		} else {
+			return value;
+		}
+	}
+
+	@Override
+	public @NotNull Nullablechar or(@NotNull NativeNullable<? extends Character> fallback) {
+		if (value == null) {
+			if (fallback.getClass() == Nullablechar.class) {
+				return (Nullablechar) fallback;
+			} else {
+				return ofNullable(fallback.getNullable());
+			}
+		} else {
+			return this;
+		}
+	}
+
+	@NotNull
+	public Nullablechar or(Nullablechar fallback) {
+		if (value == null) {
+			return fallback;
+		} else {
+			return this;
+		}
+	}
+
 	public char get() {
 		if (value == null) {
 			throw new NullPointerException();
@@ -66,6 +98,11 @@ public class Nullablechar implements Serializable, IGenericNullable {
 	@Nullable
 	public Character getNullable() {
 		return value;
+	}
+
+	@Override
+	public @Nullable Character getNullable(@Nullable Character defaultValue) {
+		return value != null ? value : defaultValue;
 	}
 
 	public char getNullable(char defaultValue) {

@@ -1,12 +1,13 @@
 package it.cavallium.data.generator.nativedata;
 
+import it.cavallium.data.generator.NativeNullable;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class Nullableshort implements Serializable, IGenericNullable {
+public class Nullableshort implements Serializable, IGenericNullable, NativeNullable<Short> {
 
 	@Serial
 	private static final long serialVersionUID = 1L;
@@ -50,6 +51,37 @@ public class Nullableshort implements Serializable, IGenericNullable {
 		return value != null;
 	}
 
+	@Override
+	public @NotNull Short orElse(@NotNull Short defaultValue) {
+		if (value == null) {
+			return defaultValue;
+		} else {
+			return value;
+		}
+	}
+
+	@Override
+	public @NotNull Nullableshort or(@NotNull NativeNullable<? extends Short> fallback) {
+		if (value == null) {
+			if (fallback.getClass() == Nullableshort.class) {
+				return (Nullableshort) fallback;
+			} else {
+				return ofNullable(fallback.getNullable());
+			}
+		} else {
+			return this;
+		}
+	}
+
+	@NotNull
+	public Nullableshort or(Nullableshort fallback) {
+		if (value == null) {
+			return fallback;
+		} else {
+			return this;
+		}
+	}
+
 	public short get() {
 		if (value == null) {
 			throw new NullPointerException();
@@ -74,6 +106,11 @@ public class Nullableshort implements Serializable, IGenericNullable {
 	@Nullable
 	public Short getNullable() {
 		return value;
+	}
+
+	@Override
+	public @Nullable Short getNullable(@Nullable Short defaultValue) {
+		return value == null ? defaultValue : value;
 	}
 
 	public short getNullable(short defaultValue) {

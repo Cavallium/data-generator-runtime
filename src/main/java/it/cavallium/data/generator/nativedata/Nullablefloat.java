@@ -1,12 +1,13 @@
 package it.cavallium.data.generator.nativedata;
 
+import it.cavallium.data.generator.NativeNullable;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class Nullablefloat implements Serializable, IGenericNullable {
+public class Nullablefloat implements Serializable, IGenericNullable, NativeNullable<Float> {
 
 	@Serial
 	private static final long serialVersionUID = 1L;
@@ -50,6 +51,37 @@ public class Nullablefloat implements Serializable, IGenericNullable {
 		return value != null;
 	}
 
+	@Override
+	public @NotNull Float orElse(@NotNull Float defaultValue) {
+		if (value == null) {
+			return defaultValue;
+		} else {
+			return value;
+		}
+	}
+
+	@Override
+	public @NotNull Nullablefloat or(@NotNull NativeNullable<? extends Float> fallback) {
+		if (value == null) {
+			if (fallback.getClass() == Nullablefloat.class) {
+				return (Nullablefloat) fallback;
+			} else {
+				return ofNullable(fallback.getNullable());
+			}
+		} else {
+			return this;
+		}
+	}
+
+	@NotNull
+	public Nullablefloat or(Nullablefloat fallback) {
+		if (value == null) {
+			return fallback;
+		} else {
+			return this;
+		}
+	}
+
 	public float get() {
 		if (value == null) {
 			throw new NullPointerException();
@@ -74,6 +106,11 @@ public class Nullablefloat implements Serializable, IGenericNullable {
 	@Nullable
 	public Float getNullable() {
 		return value;
+	}
+
+	@Override
+	public @Nullable Float getNullable(@Nullable Float defaultValue) {
+		return value == null ? defaultValue : value;
 	}
 
 	public float getNullable(float defaultValue) {

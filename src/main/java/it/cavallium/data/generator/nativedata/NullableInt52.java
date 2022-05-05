@@ -1,12 +1,14 @@
 package it.cavallium.data.generator.nativedata;
 
+import it.cavallium.data.generator.NativeNullable;
+import it.cavallium.data.generator.TypedNullable;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class NullableInt52 implements Serializable, IGenericNullable {
+public class NullableInt52 implements Serializable, IGenericNullable, TypedNullable<Int52> {
 
 	@Serial
 	private static final long serialVersionUID = 1L;
@@ -42,14 +44,17 @@ public class NullableInt52 implements Serializable, IGenericNullable {
 		return NULL;
 	}
 
+	@Override
 	public boolean isEmpty() {
 		return value == null;
 	}
 
+	@Override
 	public boolean isPresent() {
 		return value != null;
 	}
 
+	@Override
 	@NotNull
 	public Int52 get() {
 		if (value == null) {
@@ -59,11 +64,34 @@ public class NullableInt52 implements Serializable, IGenericNullable {
 		}
 	}
 
-	public Int52 orElse(Int52 defaultValue) {
+	@Override
+	public @NotNull Int52 orElse(@NotNull Int52 defaultValue) {
 		if (value == null) {
 			return defaultValue;
 		} else {
 			return value;
+		}
+	}
+
+	@Override
+	public @NotNull NullableInt52 or(@NotNull NativeNullable<? extends Int52> fallback) {
+		if (value == null) {
+			if (fallback.getClass() == NullableInt52.class) {
+				return (NullableInt52) fallback;
+			} else {
+				return ofNullable(fallback.getNullable());
+			}
+		} else {
+			return this;
+		}
+	}
+
+	@NotNull
+	public NullableInt52 or(NullableInt52 fallback) {
+		if (value == null) {
+			return fallback;
+		} else {
+			return this;
 		}
 	}
 
@@ -77,6 +105,7 @@ public class NullableInt52 implements Serializable, IGenericNullable {
 		return value;
 	}
 
+	@Override
 	@Nullable
 	public Int52 getNullable(Int52 defaultValue) {
 		return value == null ? defaultValue : value;
