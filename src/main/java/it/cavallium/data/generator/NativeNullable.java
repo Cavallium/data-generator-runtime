@@ -7,12 +7,14 @@ public interface NativeNullable<T> {
 
 	boolean isEmpty();
 
-	boolean isPresent();
+	default boolean isPresent() {
+		return !isEmpty();
+	}
 
 	@NotNull
 	T orElse(@NotNull T defaultValue);
 
-	@NotNull NativeNullable<T> or(@NotNull NativeNullable<? extends T> fallback);
+	@NotNull NativeNullable<? extends T> or(@NotNull NativeNullable<? extends T> fallback);
 
 	@Nullable
 	T getNullable();
