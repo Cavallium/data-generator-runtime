@@ -77,16 +77,6 @@ public class NullableString implements Serializable, IGenericNullable, TypedNull
 	}
 
 	@Override
-	@NotNull
-	public String orElse(@NotNull String defaultValue) {
-		if (value == null) {
-			return defaultValue;
-		} else {
-			return value;
-		}
-	}
-
-	@Override
 	public @NotNull NullableString or(@NotNull NativeNullable<? extends String> fallback) {
 		if (value == null) {
 			if (fallback.getClass() == NullableString.class) {

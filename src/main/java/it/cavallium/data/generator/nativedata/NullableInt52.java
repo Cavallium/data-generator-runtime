@@ -65,15 +65,6 @@ public class NullableInt52 implements Serializable, IGenericNullable, TypedNulla
 	}
 
 	@Override
-	public @NotNull Int52 orElse(@NotNull Int52 defaultValue) {
-		if (value == null) {
-			return defaultValue;
-		} else {
-			return value;
-		}
-	}
-
-	@Override
 	public @NotNull NullableInt52 or(@NotNull NativeNullable<? extends Int52> fallback) {
 		if (value == null) {
 			if (fallback.getClass() == NullableInt52.class) {

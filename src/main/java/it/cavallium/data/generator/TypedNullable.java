@@ -1,5 +1,6 @@
 package it.cavallium.data.generator;
 
+import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,7 +26,8 @@ public interface TypedNullable<T> extends NativeNullable<T> {
 	default @NotNull T orElse(@NotNull T defaultValue) {
 		var value = getNullable();
 		if (value == null) {
-			throw new NullPointerException();
+			Objects.requireNonNull(defaultValue, "default value must not be null");
+			return defaultValue;
 		} else {
 			return value;
 		}
